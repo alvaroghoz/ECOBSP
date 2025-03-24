@@ -5,8 +5,16 @@ from openpyxl.styles import PatternFill
 import tempfile
 
 st.set_page_config(page_title="ECOBSP", layout="centered")
-st.title("📄 Comparador ECOBSP")
-st.markdown("Sube los archivos BSP (CSV) y ORBIS (Excel) para identificar billetes TKTT no encontrados.")
+
+# 🔐 Autenticación básica
+st.title("🔒 Acceso protegido - ECOBSP")
+password = st.text_input("Introduce la contraseña:", type="password")
+if password != "ecobsp2024":
+    st.warning("Contraseña incorrecta. Acceso denegado.")
+    st.stop()
+
+st.markdown("## 📄 Comparador BSP-ORBIS")
+st.markdown("### Sube los archivos BSP (CSV) y ORBIS (Excel) para identificar billetes no encontrados en ORBIS.")
 
 # 📌 Subida de archivos
 bsp_file = st.file_uploader("🔽 Sube el archivo BSP (CSV)", type="csv")
