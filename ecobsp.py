@@ -26,7 +26,7 @@ if bsp_file and orbis_file:
         orbis_df = pd.read_excel(orbis_file, sheet_name=0, dtype=str)
 
         # Filtrar solo TKTT
-        bsp_df = bsp_df[bsp_df.iloc[:, 10] == "TKTT"]
+        bsp_df = bsp_df[bsp_df.iloc[:, 11] == "TKTT"]
 
         # Procesar número de billete
         bsp_df["N_BILLETE_PROCESADO"] = bsp_df.iloc[:, 3].str.strip().str[-10:]
