@@ -29,7 +29,7 @@ if bsp_file and orbis_file:
         bsp_df = bsp_df[bsp_df.iloc[:, 11] == "TKTT"]
 
         # Procesar número de billete
-        bsp_df["N_BILLETE_PROCESADO"] = bsp_df.iloc[:, 3].str.strip().str[-10:]
+        bsp_df["N_BILLETE_PROCESADO"] = bsp_df.iloc[:, 4].str.strip().str[-10:]
         bsp_df["N_BILLETE_PROCESADO"] = pd.to_numeric(bsp_df["N_BILLETE_PROCESADO"], errors='coerce')
 
         # Extraer billetes de ORBIS
