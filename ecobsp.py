@@ -20,14 +20,19 @@ st.markdown("### Sube los archivos BSP (CSV) y ORBIS (Excel) para identificar bi
 bsp_file = st.file_uploader("🔽 Sube el archivo BSP (CSV)", type="csv")
 orbis_file = st.file_uploader("🔽 Sube el archivo ORBIS (Excel)", type=["xlsx", "xls"])
 
-st.write("🧾 Columnas del archivo ORBIS:")
-st.write(orbis_df.columns.tolist())
-
 
 if bsp_file and orbis_file:
     try:
         bsp_df = pd.read_csv(bsp_file, dtype=str, sep=';', on_bad_lines='skip')
         orbis_df = pd.read_excel(orbis_file, sheet_name=0, dtype=str)
+
+        # 👇 MOSTRAR COLUMNAS UNA VEZ CARGADO
+        st.write("🧾 Columnas del archivo BSP:")
+        st.write(bsp_df.columns.tolist())
+
+        st.write("📊 Columnas del archivo ORBIS:")
+        st.write(orbis_df.columns.tolist())
+        
 
         # Filtrar solo TKTT
         bsp_df = bsp_df[bsp_df["DOC 1A"] == "TKTT"]
