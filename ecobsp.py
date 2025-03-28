@@ -30,12 +30,6 @@ if bsp_file and orbis_file:
         orbis_df = pd.read_excel(orbis_file, sheet_name=0, dtype=str, engine="openpyxl", header=0)
         orbis_df.columns = orbis_df.columns.str.strip()
 
-        # Mostrar columnas para depuración
-        st.write("📄 Columnas del archivo BSP:")
-        st.write(bsp_df.columns.tolist())
-        st.write("📊 Columnas del archivo ORBIS:")
-        st.write(orbis_df.columns.tolist())
-
         # Filtrar solo TKTT
         bsp_df = bsp_df[bsp_df["DOC 1A"] == "TKTT"]
 
