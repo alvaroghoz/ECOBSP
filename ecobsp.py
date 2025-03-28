@@ -39,7 +39,7 @@ if bsp_file and orbis_file:
         bsp_df["N_BILLETE_PROCESADO"] = pd.to_numeric(bsp_df["N_BILLETE_PROCESADO"], errors='coerce')
 
         # Extraer billetes de ORBIS
-        orbis_numeros = pd.to_numeric(orbis_df.iloc[:, 26], errors='coerce').dropna().astype(int).tolist()
+        orbis_numeros = pd.to_numeric(orbis_df["N_BILLETE"], errors='coerce').dropna().astype(int).tolist()
         bsp_df["ENCONTRADO"] = bsp_df["N_BILLETE_PROCESADO"].isin(orbis_numeros)
 
         # Mostrar resumen
