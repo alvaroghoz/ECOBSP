@@ -20,22 +20,20 @@ st.markdown("### Sube los archivos BSP (CSV) y ORBIS (Excel) para identificar bi
 bsp_file = st.file_uploader("🔽 Sube el archivo BSP (CSV)", type="csv")
 orbis_file = st.file_uploader("🔽 Sube el archivo ORBIS (Excel)", type=["xlsx", "xls"])
 
+st.write("🧾 Columnas del archivo ORBIS:")
+st.write(orbis_df.columns.tolist())
+
+
 if bsp_file and orbis_file:
     try:
         bsp_df = pd.read_csv(bsp_file, dtype=str, sep=';', on_bad_lines='skip')
         orbis_df = pd.read_excel(orbis_file, sheet_name=0, dtype=str)
 
-        # Asumiendo que existe una columna llamada "TipoDoc" y otra "Billete"
-        bsp_df = bsp_df[bsp_df["DOC 1A"] == "TKTT"]
-        bsp_df["N_BILLETE_PROCESADO"] = bsp_df["N BILLETE"].str.strip().str[-10:]
-
-
-        
         # Filtrar solo TKTT
-        #bsp_df = bsp_df[bsp_df.iloc[:, 11] == "TKTT"]
+        bsp_df = bsp_df[bsp_df["DOC 1A"] == "TKTT"]
 
         # Procesar número de billete
-        #bsp_df["N_BILLETE_PROCESADO"] = bsp_df["N BILLETE"].str.strip().str[-10:]
+        bsp_df["N_BILLETE_PROCESADO"] = bsp_df["N BILLETE"].str.strip().str[-10:]
         bsp_df["N_BILLETE_PROCESADO"] = pd.to_numeric(bsp_df["N_BILLETE_PROCESADO"], errors='coerce')
 
         # Extraer billetes de ORBIS
