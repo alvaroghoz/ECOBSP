@@ -20,19 +20,21 @@ st.markdown("### Sube los archivos BSP (CSV) y ORBIS (Excel) para identificar bi
 bsp_file = st.file_uploader("🔽 Sube el archivo BSP (CSV)", type="csv")
 orbis_file = st.file_uploader("🔽 Sube el archivo ORBIS (Excel)", type=["xlsx", "xls"])
 
-
 if bsp_file and orbis_file:
     try:
-        bsp_df = pd.read_csv(bsp_file, dtype=str, sep=';', on_bad_lines='skip')
-        orbis_df = pd.read_excel(orbis_file, sheet_name=0, dtype=str)
+        # Leer BSP
+        bsp_df = pd.read_csv(bsp_file, dtype=str, sep=';', header=0, encoding='utf-8')
+        bsp_df.columns = bsp_df.columns.str.strip()
 
-        # 👇 MOSTRAR COLUMNAS UNA VEZ CARGADO
-        st.write("🧾 Columnas del archivo BSP:")
+        # Leer ORBIS
+        orbis_df = pd.read_excel(orbis_file, sheet_name=0, dtype=str, engine="openpyxl", header=0)
+        orbis_df.columns = orbis_df.columns.str.strip()
+
+        # Mostrar columnas para depuración
+        st.write("📄 Columnas del archivo BSP:")
         st.write(bsp_df.columns.tolist())
-
         st.write("📊 Columnas del archivo ORBIS:")
         st.write(orbis_df.columns.tolist())
-        
 
         # Filtrar solo TKTT
         bsp_df = bsp_df[bsp_df["DOC 1A"] == "TKTT"]
@@ -42,7 +44,7 @@ if bsp_file and orbis_file:
         bsp_df["N_BILLETE_PROCESADO"] = pd.to_numeric(bsp_df["N_BILLETE_PROCESADO"], errors='coerce')
 
         # Extraer billetes de ORBIS
-        orbis_numeros = pd.to_numeric(orbis_df["N_BILLETE"], errors='coerce').dropna().astype(int).tolist()
+        orbis_numeros = pd.to_numeric(orbis_df["Nº Billete"], errors='coerce').dropna().astype(int).tolist()
         bsp_df["ENCONTRADO"] = bsp_df["N_BILLETE_PROCESADO"].isin(orbis_numeros)
 
         # Mostrar resumen
@@ -77,3 +79,4 @@ if bsp_file and orbis_file:
 
 else:
     st.info("⬆️ Esperando que subas ambos archivos BSP y ORBIS.")
+
